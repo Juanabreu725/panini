@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#060b1a"/>
+<title>Panini FIFA WC 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#060b1a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;padding-bottom:40px;}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px) scale(0.92);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:#0a0f1e;}
+::-webkit-scrollbar-thumb{background:#1e3a6e;border-radius:3px;}
+#app{max-width:480px;margin:0 auto;}
+.header{background:linear-gradient(135deg,#0d1b3e 0%,#1a2f6e 50%,#0d1b3e 100%);border-bottom:2px solid #1e3a6e;padding:16px 20px 12px;position:sticky;top:0;z-index:100;box-shadow:0 4px 24px #00000088;}
+.title{text-align:center;font-size:26px;font-weight:900;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;color:#fff;text-shadow:0 0 20px #3b82f688;}
+.subtitle{text-align:center;font-size:11px;color:#64748b;letter-spacing:3px;margin-top:2px;}
+.progress-bar-bg{background:#1e293b;border-radius:999px;height:6px;overflow:hidden;margin-bottom:4px;}
+.progress-bar-fill{background:linear-gradient(90deg,#3b82f6,#8b5cf6);height:100%;border-radius:999px;transition:width .5s ease;}
+.stats{display:flex;gap:8px;margin:10px 0;}
+.stat-box{flex:1;background:#0f1a33;border-radius:8px;padding:6px 4px;text-align:center;border:1px solid #1e3a6e;}
+.stat-icon{font-size:14px;}
+.stat-val{font-size:15px;font-weight:800;font-family:'Bebas Neue',sans-serif;}
+.stat-label{font-size:9px;color:#64748b;}
+.tabs{display:flex;gap:8px;}
+.tab{flex:1;padding:8px;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:12px;letter-spacing:1px;font-family:'Rajdhani',sans-serif;transition:all .2s;}
+.tab.active{background:#3b82f6;color:#fff;}
+.tab.inactive{background:#1e293b;color:#64748b;}
+.content{padding:16px;}
+.card-box{background:#0f1a33;border-radius:12px;padding:14px;border:1px solid #1e3a6e;margin-bottom:16px;}
+.section-label{font-size:11px;color:#64748b;margin-bottom:8px;letter-spacing:1px;}
+.qty-row{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+.qty-input{width:100%;padding:8px 10px;border-radius:8px;background:#1e293b;border:1px solid #2d4a7a;color:#e2e8f0;font-size:16px;font-weight:700;}
+.qty-btns{display:flex;flex-direction:column;gap:4px;padding-top:16px;}
+.qty-btn{padding:4px 10px;border-radius:6px;border:none;cursor:pointer;font-size:11px;font-weight:700;}
+.open-btn{width:100%;padding:14px;border-radius:10px;border:none;cursor:pointer;color:#fff;font-weight:900;font-size:16px;letter-spacing:2px;font-family:'Bebas Neue',sans-serif;transition:transform .1s;}
+.open-btn.active{background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);box-shadow:0 4px 20px #3b82f644;}
+.open-btn.disabled{background:#1e293b;cursor:not-allowed;}
+.open-btn.opening{animation:pulse .6s infinite;}
+.pack-label{font-size:11px;color:#64748b;margin-bottom:10px;letter-spacing:2px;}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.sticker-card{border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;min-height:110px;justify-content:center;}
+.sticker-new-badge{position:absolute;top:-8px;right:-8px;background:#ef4444;color:#fff;font-size:9px;font-weight:700;border-radius:999px;padding:2px 6px;letter-spacing:.5px;}
+.sticker-icon{font-size:22px;}
+.sticker-name{font-size:11px;font-weight:700;text-align:center;line-height:1.2;font-family:'Bebas Neue','Anton',sans-serif;letter-spacing:.5px;}
+.sticker-team{font-size:9px;color:#94a3b8;text-align:center;font-family:monospace;}
+.sticker-rarity{margin-top:2px;font-size:9px;font-weight:700;opacity:.8;border-radius:4px;padding:1px 6px;letter-spacing:.5px;}
+.sticker-id{font-size:8px;color:#475569;}
+.sticker-page{font-size:9px;color:#64748b;background:#0f1729;border-radius:4px;padding:1px 6px;margin-top:1px;letter-spacing:.5px;}
+.see-more-btn{width:100%;padding:10px;border-radius:8px;border:1px solid #1e3a6e;background:#0f1a33;color:#60a5fa;cursor:pointer;font-size:12px;font-weight:700;margin-bottom:12px;}
+.filter-box{background:#0f1a33;border-radius:12px;padding:12px;border:1px solid #1e3a6e;margin-bottom:14px;}
+.filter-select{width:100%;padding:8px;border-radius:8px;background:#1e293b;border:1px solid #2d4a7a;color:#e2e8f0;font-size:13px;margin-bottom:8px;}
+.empty-msg{text-align:center;color:#475569;padding:40px 0;font-size:14px;}
+.rarity-legend{padding:20px 16px 0;margin-top:8px;}
+.rarity-label-sm{font-size:10px;color:#334155;margin-bottom:8px;letter-spacing:2px;}
+.rarity-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.rarity-tag{font-size:9px;border-radius:4px;padding:2px 7px;font-weight:700;}
+.loading{display:flex;align-items:center;justify-content:center;min-height:100vh;color:#60a5fa;font-size:18px;font-family:monospace;}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading">Carregando álbum...</div></div>
+<script>
+
+// ─── PAGE LOOKUP
+function getPage(id) {
+  const ranges = [
+    [1,14,1],[15,30,2],[31,43,3],[44,57,4],[58,71,5],[72,83,6],[84,97,7],
+    [98,112,8],[113,127,9],[128,140,10],[141,153,11],[154,167,12],[168,181,13],
+    [182,195,14],[196,209,15],[210,224,16],[225,239,17],[240,252,18],[253,267,19],
+    [268,280,20],[281,293,21],[294,306,22],[307,320,23],[321,332,24],[333,346,25],
+    [347,362,26],[363,376,27],[377,390,28],[391,404,29],[405,416,30],[417,427,31],
+    [428,440,32],[441,453,33],[454,467,34],[468,483,35],[484,495,36],[496,508,37],
+    [509,522,38],[523,537,39],[538,549,40],[550,563,41],[564,577,42],[578,591,43],
+    [592,606,44],[607,619,45],[620,631,46],[632,645,47],[646,658,48],[659,672,49],
+    [673,687,50],[688,701,51],[702,715,52],[716,730,53],[731,742,54],[743,757,55],
+    [758,770,56],[771,783,57],[784,796,58],[797,810,59],[811,826,60],[827,833,61],
+    [834,844,62],[845,857,63],[858,873,64],[874,889,65],[890,905,66],[906,921,67],
+    [922,937,68],
+  ];
+  for (const [s, e, p] of ranges) if (id >= s && id <= e) return p;
+  return '?';
+}
+
+// ─── STICKER DATA
+const ALL_STICKERS = [
+  // MÉXICO
+  { id: 1, name: "Escudo", team: "México", type: "escudo" },
+  { id: 2, name: "Foto do Time", team: "México", type: "foto" },
+  { id: 3, name: "Luis Malagón", team: "México", type: "player" },
+  { id: 4, name: "Johan Vásquez", team: "México", type: "player" },
+  { id: 5, name: "Israel Reyes", team: "México", type: "player" },
+  { id: 6, name: "Jorge Sánchez", team: "México", type: "player" },
+  { id: 7, name: "Orbelín Pineda", team: "México", type: "player" },
+  { id: 8, name: "Diego Lainez", team: "México", type: "player" },
+  { id: 9, name: "Edson Álvarez", team: "México", type: "player" },
+  { id: 10, name: "Érick Sánchez", team: "México", type: "player" },
+  { id: 11, name: "Carlos Rodríguez", team: "México", type: "player" },
+  { id: 12, name: "Marcel Ruiz", team: "México", type: "player" },
+  { id: 13, name: "Raúl Jiménez", team: "México", type: "player" },
+  { id: 14, name: "Santiago Giménez", team: "México", type: "player" },
+  // SOUTH AFRICA
+  { id: 15, name: "Escudo", team: "África do Sul", type: "escudo" },
+  { id: 16, name: "Foto do Time", team: "África do Sul", type: "foto" },
+  { id: 17, name: "Sipho Chaine", team: "África do Sul", type: "player" },
+  { id: 18, name: "Ronwen Williams", team: "África do Sul", type: "player" },
+  { id: 19, name: "Aubrey Modiba", team: "África do Sul", type: "player" },
+  { id: 20, name: "Samukele Kabini", team: "África do Sul", type: "player" },
+  { id: 21, name: "Mbekezeli Mbokazi", team: "África do Sul", type: "player" },
+  { id: 22, name: "Khulumani Ndamane", team: "África do Sul", type: "player" },
+  { id: 23, name: "Siyabonga Ngezana", team: "África do Sul", type: "player" },
+  { id: 24, name: "Khuluso Mudau", team: "África do Sul", type: "player" },
+  { id: 25, name: "Nkosinathi Sibisi", team: "África do Sul", type: "player" },
+  { id: 26, name: "Teboho Mokoena", team: "África do Sul", type: "player" },
+  { id: 27, name: "Thalente Mbatha", team: "África do Sul", type: "player" },
+  { id: 28, name: "Bathusi Aubaas", team: "África do Sul", type: "player" },
+  { id: 29, name: "Yaya Sithole", team: "África do Sul", type: "player" },
+  { id: 30, name: "Sipho Mbule", team: "África do Sul", type: "player" },
+  // KOREA
+  { id: 31, name: "Escudo", team: "Coreia do Sul", type: "escudo" },
+  { id: 32, name: "Foto do Time", team: "Coreia do Sul", type: "foto" },
+  { id: 33, name: "Hyeonwoo Jo", team: "Coreia do Sul", type: "player" },
+  { id: 34, name: "Minjae Kim", team: "Coreia do Sul", type: "player" },
+  { id: 35, name: "Yumin Cho", team: "Coreia do Sul", type: "player" },
+  { id: 36, name: "Youngwoo Seol", team: "Coreia do Sul", type: "player" },
+  { id: 37, name: "Hanbeom Lee", team: "Coreia do Sul", type: "player" },
+  { id: 38, name: "Taeseok Lee", team: "Coreia do Sul", type: "player" },
+  { id: 39, name: "Myungjae Lee", team: "Coreia do Sul", type: "player" },
+  { id: 40, name: "Inbeom Hwang", team: "Coreia do Sul", type: "player" },
+  { id: 41, name: "Seungho Paik", team: "Coreia do Sul", type: "player" },
+  { id: 42, name: "Jens Gastrop", team: "Coreia do Sul", type: "player" },
+  { id: 43, name: "Donggyeong Lee", team: "Coreia do Sul", type: "player" },
+  // CZECHIA
+  { id: 44, name: "Escudo", team: "República Tcheca", type: "escudo" },
+  { id: 45, name: "Foto do Time", team: "República Tcheca", type: "foto" },
+  { id: 46, name: "Matěj Kovář", team: "República Tcheca", type: "player" },
+  { id: 47, name: "Jindřich Staněk", team: "República Tcheca", type: "player" },
+  { id: 48, name: "Ladislav Krejčí", team: "República Tcheca", type: "player" },
+  { id: 49, name: "Vladimír Coufal", team: "República Tcheca", type: "player" },
+  { id: 50, name: "Jaroslav Zelený", team: "República Tcheca", type: "player" },
+  { id: 51, name: "Tomáš Holeš", team: "República Tcheca", type: "player" },
+  { id: 52, name: "David Zima", team: "República Tcheca", type: "player" },
+  { id: 53, name: "Michal Sadílek", team: "República Tcheca", type: "player" },
+  { id: 54, name: "Lukáš Červ", team: "República Tcheca", type: "player" },
+  { id: 55, name: "Tomáš Souček", team: "República Tcheca", type: "player" },
+  { id: 56, name: "Matěj Vydra", team: "República Tcheca", type: "player" },
+  { id: 57, name: "Vasil Kušej", team: "República Tcheca", type: "player" },
+  // Mixed p5
+  { id: 58, name: "Hirving Lozano", team: "México", type: "player" },
+  { id: 59, name: "Alexis Vega", team: "México", type: "player" },
+  { id: 60, name: "César Huerta", team: "México", type: "player" },
+  { id: 61, name: "Roberto Alvarado", team: "México", type: "player" },
+  { id: 62, name: "Lyle Foster", team: "África do Sul", type: "player" },
+  { id: 63, name: "Mohau Nkota", team: "África do Sul", type: "player" },
+  { id: 64, name: "Guesung Cho", team: "Coreia do Sul", type: "player" },
+  { id: 65, name: "Heungmin Son", team: "Coreia do Sul", type: "player" },
+  { id: 66, name: "Heechan Hwang", team: "Coreia do Sul", type: "player" },
+  { id: 67, name: "Hyeongyu Oh", team: "Coreia do Sul", type: "player" },
+  { id: 68, name: "Tomáš Chorý", team: "República Tcheca", type: "player" },
+  { id: 69, name: "Václav Černý", team: "República Tcheca", type: "player" },
+  { id: 70, name: "Adam Hložek", team: "República Tcheca", type: "player" },
+  { id: 71, name: "Patrik Schick", team: "República Tcheca", type: "player" },
+  // CANADA
+  { id: 72, name: "Escudo", team: "Canadá", type: "escudo" },
+  { id: 73, name: "Foto do Time", team: "Canadá", type: "foto" },
+  { id: 74, name: "Niko Sigur", team: "Canadá", type: "player" },
+  { id: 75, name: "Jacob Shaffelburg", team: "Canadá", type: "player" },
+  { id: 76, name: "Mathieu Choinière", team: "Canadá", type: "player" },
+  { id: 77, name: "Stephen Eustáquio", team: "Canadá", type: "player" },
+  { id: 78, name: "Alphonso Davies", team: "Canadá", type: "player" },
+  { id: 79, name: "Kamal Miller", team: "Canadá", type: "player" },
+  { id: 80, name: "Alistair Johnston", team: "Canadá", type: "player" },
+  { id: 81, name: "Moïse Bombito", team: "Canadá", type: "player" },
+  { id: 82, name: "Derek Cornelius", team: "Canadá", type: "player" },
+  { id: 83, name: "Richie Larrea", team: "Canadá", type: "player" },
+  // BOSNIA
+  { id: 84, name: "Escudo", team: "Bósnia-Herzegovina", type: "escudo" },
+  { id: 85, name: "Foto do Time", team: "Bósnia-Herzegovina", type: "foto" },
+  { id: 86, name: "Nikola Vasilj", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 87, name: "Amar Dedić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 88, name: "Tarik Muharemović", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 89, name: "Nihad Mujakić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 90, name: "Nikola Katić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 91, name: "Amir Hadžiahmetović", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 92, name: "Armin Gigović", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 93, name: "Ivan Šunjić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 94, name: "Ivan Bašić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 95, name: "Dženis Burnić", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 96, name: "Esmir Bajraktarević", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 97, name: "Amar Memić", team: "Bósnia-Herzegovina", type: "player" },
+  // QATAR
+  { id: 98, name: "Escudo", team: "Qatar", type: "escudo" },
+  { id: 99, name: "Foto do Time", team: "Qatar", type: "foto" },
+  { id: 100, name: "Meshaal Barsham", team: "Qatar", type: "player" },
+  { id: 101, name: "Sultan Albrake", team: "Qatar", type: "player" },
+  { id: 102, name: "Lucas Mendes", team: "Qatar", type: "player" },
+  { id: 103, name: "Homam Ahmed", team: "Qatar", type: "player" },
+  { id: 104, name: "Boualem Khoukhi", team: "Qatar", type: "player" },
+  { id: 105, name: "Pedro Miguel", team: "Qatar", type: "player" },
+  { id: 106, name: "Tarek Salman", team: "Qatar", type: "player" },
+  { id: 107, name: "Mohammed Mannai", team: "Qatar", type: "player" },
+  { id: 108, name: "Assim Madibo", team: "Qatar", type: "player" },
+  { id: 109, name: "Hamed Fatehi", team: "Qatar", type: "player" },
+  { id: 110, name: "Mohammed Waad", team: "Qatar", type: "player" },
+  { id: 111, name: "Abdulaziz Hatem", team: "Qatar", type: "player" },
+  { id: 112, name: "Hassan Al-Haydos", team: "Qatar", type: "player" },
+  // SWITZERLAND
+  { id: 113, name: "Escudo", team: "Suíça", type: "escudo" },
+  { id: 114, name: "Foto do Time", team: "Suíça", type: "foto" },
+  { id: 115, name: "Gregor Kobel", team: "Suíça", type: "player" },
+  { id: 116, name: "Yvon Mvogo", team: "Suíça", type: "player" },
+  { id: 117, name: "Manuel Akanji", team: "Suíça", type: "player" },
+  { id: 118, name: "Nico Elvedi", team: "Suíça", type: "player" },
+  { id: 119, name: "Aurèle Amenda", team: "Suíça", type: "player" },
+  { id: 120, name: "Silvan Widmer", team: "Suíça", type: "player" },
+  { id: 121, name: "Granit Xhaka", team: "Suíça", type: "player" },
+  { id: 122, name: "Denis Zakaria", team: "Suíça", type: "player" },
+  { id: 123, name: "Remo Freuler", team: "Suíça", type: "player" },
+  { id: 124, name: "Fabian Rieder", team: "Suíça", type: "player" },
+  { id: 125, name: "Ardon Jashari", team: "Suíça", type: "player" },
+  { id: 126, name: "Johan Manzambi", team: "Suíça", type: "player" },
+  { id: 127, name: "Michel Aebischer", team: "Suíça", type: "player" },
+  // Mixed p10
+  { id: 128, name: "Samuel Adekugbe", team: "Canadá", type: "player" },
+  { id: 129, name: "Cyle Larin", team: "Canadá", type: "player" },
+  { id: 130, name: "Jonathan David", team: "Canadá", type: "player" },
+  { id: 131, name: "Liam Millar", team: "Canadá", type: "player" },
+  { id: 132, name: "Ermedin Demirović", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 133, name: "Samed Baždar", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 134, name: "Haris Tabaković", team: "Bósnia-Herzegovina", type: "player" },
+  { id: 135, name: "Edmílson Junior", team: "Qatar", type: "player" },
+  { id: 136, name: "Akram Hassan Afif", team: "Qatar", type: "player" },
+  { id: 137, name: "Ahmed Al-Ganehi", team: "Qatar", type: "player" },
+  { id: 138, name: "Breel Embolo", team: "Suíça", type: "player" },
+  { id: 139, name: "Dan Ndove", team: "Suíça", type: "player" },
+  { id: 140, name: "Zeki Amdouni", team: "Suíça", type: "player" },
+  // BRASIL
+  { id: 141, name: "Escudo", team: "Brasil", type: "escudo" },
+  { id: 142, name: "Foto do Time", team: "Brasil", type: "foto" },
+  { id: 143, name: "Bento", team: "Brasil", type: "player" },
+  { id: 144, name: "Wesley", team: "Brasil", type: "player" },
+  { id: 145, name: "Gabriel Magalhães", team: "Brasil", type: "player" },
+  { id: 146, name: "Danilo", team: "Brasil", type: "player" },
+  { id: 147, name: "Bruno Guimarães", team: "Brasil", type: "player" },
+  { id: 148, name: "Lucas Paquetá", team: "Brasil", type: "player" },
+  { id: 149, name: "Casemiro", team: "Brasil", type: "player" },
+  { id: 150, name: "Gabriel Martinelli", team: "Brasil", type: "player" },
+  { id: 151, name: "Raphinha", team: "Brasil", type: "player" },
+  { id: 152, name: "Estêvão", team: "Brasil", type: "player" },
+  { id: 153, name: "Matheus Cunha", team: "Brasil", type: "player" },
+  // MOROCCO
+  { id: 154, name: "Escudo", team: "Marrocos", type: "escudo" },
+  { id: 155, name: "Foto do Time", team: "Marrocos", type: "foto" },
+  { id: 156, name: "Yassine Bounou", team: "Marrocos", type: "player" },
+  { id: 157, name: "Youssef En-Nesyri", team: "Marrocos", type: "player" },
+  { id: 158, name: "Abde Ezzalzouli", team: "Marrocos", type: "player" },
+  { id: 159, name: "Soufiane Rahimi", team: "Marrocos", type: "player" },
+  { id: 160, name: "Ayoub El Kaabi", team: "Marrocos", type: "player" },
+  { id: 161, name: "Sofyan Amrabat", team: "Marrocos", type: "player" },
+  { id: 162, name: "Azzedine Ounahi", team: "Marrocos", type: "player" },
+  { id: 163, name: "Bilal El Khannouss", team: "Marrocos", type: "player" },
+  { id: 164, name: "Ismael Saibari", team: "Marrocos", type: "player" },
+  { id: 165, name: "Achraf Hakimi", team: "Marrocos", type: "player" },
+  { id: 166, name: "Romain Saïss", team: "Marrocos", type: "player" },
+  { id: 167, name: "Jawad El Yamiq", team: "Marrocos", type: "player" },
+  // HAITI
+  { id: 168, name: "Escudo", team: "Haiti", type: "escudo" },
+  { id: 169, name: "Foto do Time", team: "Haiti", type: "foto" },
+  { id: 170, name: "Johny Placide", team: "Haiti", type: "player" },
+  { id: 171, name: "Carlens Arcus", team: "Haiti", type: "player" },
+  { id: 172, name: "Martin Expérience", team: "Haiti", type: "player" },
+  { id: 173, name: "Jean-Kévin Duverne", team: "Haiti", type: "player" },
+  { id: 174, name: "Ricardo Adé", team: "Haiti", type: "player" },
+  { id: 175, name: "Duke Lacroix", team: "Haiti", type: "player" },
+  { id: 176, name: "Garven Metusala", team: "Haiti", type: "player" },
+  { id: 177, name: "Leverton Pierre", team: "Haiti", type: "player" },
+  { id: 178, name: "Danley Jean Jacques", team: "Haiti", type: "player" },
+  { id: 179, name: "Jean-Ricner Bellegarde", team: "Haiti", type: "player" },
+  { id: 180, name: "Christopher Attvs", team: "Haiti", type: "player" },
+  { id: 181, name: "Derrick Etienne Jr.", team: "Haiti", type: "player" },
+  // SCOTLAND
+  { id: 182, name: "Escudo", team: "Escócia", type: "escudo" },
+  { id: 183, name: "Foto do Time", team: "Escócia", type: "foto" },
+  { id: 184, name: "Lyndon Dykes", team: "Escócia", type: "player" },
+  { id: 185, name: "Ben Gannon-Doak", team: "Escócia", type: "player" },
+  { id: 186, name: "Ché Adams", team: "Escócia", type: "player" },
+  { id: 187, name: "Jack Hendry", team: "Escócia", type: "player" },
+  { id: 188, name: "Kieran Tierney", team: "Escócia", type: "player" },
+  { id: 189, name: "Aaron Hickey", team: "Escócia", type: "player" },
+  { id: 190, name: "Andrew Robertson", team: "Escócia", type: "player" },
+  { id: 191, name: "Anthony Ralston", team: "Escócia", type: "player" },
+  { id: 192, name: "Scott McKenna", team: "Escócia", type: "player" },
+  { id: 193, name: "Grant Hanley", team: "Escócia", type: "player" },
+  { id: 194, name: "Kenny McLean", team: "Escócia", type: "player" },
+  { id: 195, name: "John McGinn", team: "Escócia", type: "player" },
+  // Mixed p15
+  { id: 196, name: "Rodrygo", team: "Brasil", type: "player" },
+  { id: 197, name: "João Pedro", team: "Brasil", type: "player" },
+  { id: 198, name: "Luiz Henrique", team: "Brasil", type: "player" },
+  { id: 199, name: "Vinícius Júnior", team: "Brasil", type: "player" },
+  { id: 200, name: "Munir El Kajoui", team: "Marrocos", type: "player" },
+  { id: 201, name: "Nayef Aguerd", team: "Marrocos", type: "player" },
+  { id: 202, name: "Adam Masina", team: "Marrocos", type: "player" },
+  { id: 203, name: "Noussair Mazraoui", team: "Marrocos", type: "player" },
+  { id: 204, name: "Ruben Providence", team: "Haiti", type: "player" },
+  { id: 205, name: "Louicius Deedson", team: "Haiti", type: "player" },
+  { id: 206, name: "Frantzov Pierrot", team: "Haiti", type: "player" },
+  { id: 207, name: "Ryan Christie", team: "Escócia", type: "player" },
+  { id: 208, name: "Billy Gilmour", team: "Escócia", type: "player" },
+  { id: 209, name: "Scott McTominay", team: "Escócia", type: "player" },
+  // USA
+  { id: 210, name: "Escudo", team: "EUA", type: "escudo" },
+  { id: 211, name: "Foto do Time", team: "EUA", type: "foto" },
+  { id: 212, name: "Matt Freese", team: "EUA", type: "player" },
+  { id: 213, name: "Haji Wright", team: "EUA", type: "player" },
+  { id: 214, name: "Brenden Aaronson", team: "EUA", type: "player" },
+  { id: 215, name: "Ricardo Pepi", team: "EUA", type: "player" },
+  { id: 216, name: "Christian Pulisic", team: "EUA", type: "player" },
+  { id: 217, name: "Folarin Balogun", team: "EUA", type: "player" },
+  { id: 218, name: "Alex Freeman", team: "EUA", type: "player" },
+  { id: 219, name: "Antonee Robinson", team: "EUA", type: "player" },
+  { id: 220, name: "Chris Richards", team: "EUA", type: "player" },
+  { id: 221, name: "Mark McKenzie", team: "EUA", type: "player" },
+  { id: 222, name: "Tim Ream", team: "EUA", type: "player" },
+  { id: 223, name: "Tyler Adams", team: "EUA", type: "player" },
+  { id: 224, name: "Timothy Weah", team: "EUA", type: "player" },
+  // PARAGUAY
+  { id: 225, name: "Escudo", team: "Paraguai", type: "escudo" },
+  { id: 226, name: "Foto do Time", team: "Paraguai", type: "foto" },
+  { id: 227, name: "Roberto Fernández", team: "Paraguai", type: "player" },
+  { id: 228, name: "Orlando Gill", team: "Paraguai", type: "player" },
+  { id: 229, name: "Gustavo Gómez", team: "Paraguai", type: "player" },
+  { id: 230, name: "Fabián Balbuena", team: "Paraguai", type: "player" },
+  { id: 231, name: "Juan José Cáceres", team: "Paraguai", type: "player" },
+  { id: 232, name: "Omar Alderete", team: "Paraguai", type: "player" },
+  { id: 233, name: "Júnior Alonso", team: "Paraguai", type: "player" },
+  { id: 234, name: "Mathías Villasanti", team: "Paraguai", type: "player" },
+  { id: 235, name: "Diego Gómez", team: "Paraguai", type: "player" },
+  { id: 236, name: "Damián Bobadilla", team: "Paraguai", type: "player" },
+  { id: 237, name: "Matías Galarza Fonda", team: "Paraguai", type: "player" },
+  { id: 238, name: "Julio Enciso", team: "Paraguai", type: "player" },
+  { id: 239, name: "Alejandro Romero Gamarra", team: "Paraguai", type: "player" },
+  // AUSTRALIA
+  { id: 240, name: "Escudo", team: "Austrália", type: "escudo" },
+  { id: 241, name: "Foto do Time", team: "Austrália", type: "foto" },
+  { id: 242, name: "Mathew Ryan", team: "Austrália", type: "player" },
+  { id: 243, name: "Joe Gauci", team: "Austrália", type: "player" },
+  { id: 244, name: "Harry Souttar", team: "Austrália", type: "player" },
+  { id: 245, name: "Jordan Bos", team: "Austrália", type: "player" },
+  { id: 246, name: "Milos Degenek", team: "Austrália", type: "player" },
+  { id: 247, name: "Aziz Behich", team: "Austrália", type: "player" },
+  { id: 248, name: "Cameron Burgess", team: "Austrália", type: "player" },
+  { id: 249, name: "Aiden O'Neill", team: "Austrália", type: "player" },
+  { id: 250, name: "Connor Metcalfe", team: "Austrália", type: "player" },
+  { id: 251, name: "Riley McGree", team: "Austrália", type: "player" },
+  { id: 252, name: "Patrick Vazbek", team: "Austrália", type: "player" },
+  // TURKEY
+  { id: 253, name: "Escudo", team: "Turquia", type: "escudo" },
+  { id: 254, name: "Foto do Time", team: "Turquia", type: "foto" },
+  { id: 255, name: "Uğurcan Çakır", team: "Turquia", type: "player" },
+  { id: 256, name: "Zeki Çelik", team: "Turquia", type: "player" },
+  { id: 257, name: "Abdülkerim Bardakçı", team: "Turquia", type: "player" },
+  { id: 258, name: "Ferdi Kadıoğlu", team: "Turquia", type: "player" },
+  { id: 259, name: "Merih Demiral", team: "Turquia", type: "player" },
+  { id: 260, name: "Mert Müldür", team: "Turquia", type: "player" },
+  { id: 261, name: "Çağlar Söyüncü", team: "Turquia", type: "player" },
+  { id: 262, name: "Hakan Çalhanoğlu", team: "Turquia", type: "player" },
+  { id: 263, name: "İsmail Yüksek", team: "Turquia", type: "player" },
+  { id: 264, name: "Kaan Ayhan", team: "Turquia", type: "player" },
+  { id: 265, name: "Orkun Kökçü", team: "Turquia", type: "player" },
+  { id: 266, name: "Kenan Yıldız", team: "Turquia", type: "player" },
+  { id: 267, name: "Kerem Aktürkoğlu", team: "Turquia", type: "player" },
+  // Mixed p20
+  { id: 268, name: "Diego Luna", team: "EUA", type: "player" },
+  { id: 269, name: "Cristian Roldán", team: "EUA", type: "player" },
+  { id: 270, name: "Weston McKennie", team: "EUA", type: "player" },
+  { id: 271, name: "Tanner Tessmann", team: "EUA", type: "player" },
+  { id: 272, name: "Antonio Sanabria", team: "Paraguai", type: "player" },
+  { id: 273, name: "Miguel Almirón", team: "Paraguai", type: "player" },
+  { id: 274, name: "Ramón Sosa", team: "Paraguai", type: "player" },
+  { id: 275, name: "Craig Goodwin", team: "Austrália", type: "player" },
+  { id: 276, name: "Nestory Irankunda", team: "Austrália", type: "player" },
+  { id: 277, name: "Mohamed Touré", team: "Austrália", type: "player" },
+  { id: 278, name: "İrfan Can Kahveci", team: "Turquia", type: "player" },
+  { id: 279, name: "Yunus Akgün", team: "Turquia", type: "player" },
+  { id: 280, name: "Can Uzun", team: "Turquia", type: "player" },
+  // GERMANY
+  { id: 281, name: "Escudo", team: "Alemanha", type: "escudo" },
+  { id: 282, name: "Foto do Time", team: "Alemanha", type: "foto" },
+  { id: 283, name: "Kai Havertz", team: "Alemanha", type: "player" },
+  { id: 284, name: "Nick Woltemade", team: "Alemanha", type: "player" },
+  { id: 285, name: "Karim Adeyemi", team: "Alemanha", type: "player" },
+  { id: 286, name: "Leroy Sané", team: "Alemanha", type: "player" },
+  { id: 287, name: "Leon Goretzka", team: "Alemanha", type: "player" },
+  { id: 288, name: "Florian Wirtz", team: "Alemanha", type: "player" },
+  { id: 289, name: "Felix Nmecha", team: "Alemanha", type: "player" },
+  { id: 290, name: "Joshua Kimmich", team: "Alemanha", type: "player" },
+  { id: 291, name: "Jamal Musiala", team: "Alemanha", type: "player" },
+  { id: 292, name: "David Raum", team: "Alemanha", type: "player" },
+  { id: 293, name: "Ridle Baku", team: "Alemanha", type: "player" },
+  // CURAÇAO
+  { id: 294, name: "Escudo", team: "Curaçao", type: "escudo" },
+  { id: 295, name: "Foto do Time", team: "Curaçao", type: "foto" },
+  { id: 296, name: "Eloy Room", team: "Curaçao", type: "player" },
+  { id: 297, name: "Roshon Van Eijma", team: "Curaçao", type: "player" },
+  { id: 298, name: "Shurandy Sambo", team: "Curaçao", type: "player" },
+  { id: 299, name: "Joshua Brenet", team: "Curaçao", type: "player" },
+  { id: 300, name: "Armando Obispo", team: "Curaçao", type: "player" },
+  { id: 301, name: "Godfried Roemeratoe", team: "Curaçao", type: "player" },
+  { id: 302, name: "Juninho Bacuna", team: "Curaçao", type: "player" },
+  { id: 303, name: "Jearl Margaritha", team: "Curaçao", type: "player" },
+  { id: 304, name: "Sontje Hansen", team: "Curaçao", type: "player" },
+  { id: 305, name: "Jeremy Antonisse", team: "Curaçao", type: "player" },
+  { id: 306, name: "Jürgen Locadia", team: "Curaçao", type: "player" },
+  // CÔTE D'IVOIRE
+  { id: 307, name: "Escudo", team: "Costa do Marfim", type: "escudo" },
+  { id: 308, name: "Foto do Time", team: "Costa do Marfim", type: "foto" },
+  { id: 309, name: "Ousmane Diomande", team: "Costa do Marfim", type: "player" },
+  { id: 310, name: "Evan Ndicka", team: "Costa do Marfim", type: "player" },
+  { id: 311, name: "Willy Boly", team: "Costa do Marfim", type: "player" },
+  { id: 312, name: "Ghislain Konan", team: "Costa do Marfim", type: "player" },
+  { id: 313, name: "Wilfried Singo", team: "Costa do Marfim", type: "player" },
+  { id: 314, name: "Emmanuel Agbadou", team: "Costa do Marfim", type: "player" },
+  { id: 315, name: "Odilon Kossounou", team: "Costa do Marfim", type: "player" },
+  { id: 316, name: "Ibrahim Sangaré", team: "Costa do Marfim", type: "player" },
+  { id: 317, name: "Simon Adingra", team: "Costa do Marfim", type: "player" },
+  { id: 318, name: "Jean-Philippe Gbamin", team: "Costa do Marfim", type: "player" },
+  { id: 319, name: "Oumar Diakité", team: "Costa do Marfim", type: "player" },
+  { id: 320, name: "Amad Diallo", team: "Costa do Marfim", type: "player" },
+  // ECUADOR
+  { id: 321, name: "Escudo", team: "Equador", type: "escudo" },
+  { id: 322, name: "Foto do Time", team: "Equador", type: "foto" },
+  { id: 323, name: "Hernán Galíndez", team: "Equador", type: "player" },
+  { id: 324, name: "Enner Valencia", team: "Equador", type: "player" },
+  { id: 325, name: "Alan Minda", team: "Equador", type: "player" },
+  { id: 326, name: "Gonzalo Plata", team: "Equador", type: "player" },
+  { id: 327, name: "Leonardo Campana", team: "Equador", type: "player" },
+  { id: 328, name: "Pedro Vite", team: "Equador", type: "player" },
+  { id: 329, name: "Kendry Páez", team: "Equador", type: "player" },
+  { id: 330, name: "Alan Franco", team: "Equador", type: "player" },
+  { id: 331, name: "Moisés Caicedo", team: "Equador", type: "player" },
+  { id: 332, name: "John Yeboah", team: "Equador", type: "player" },
+  // Mixed p25
+  { id: 333, name: "Waldemar Anton", team: "Alemanha", type: "player" },
+  { id: 334, name: "Antonio Rüdiger", team: "Alemanha", type: "player" },
+  { id: 335, name: "Maximilian Mittelstadt", team: "Alemanha", type: "player" },
+  { id: 336, name: "Gervane Kastaneer", team: "Curaçao", type: "player" },
+  { id: 337, name: "Tahith Chong", team: "Curaçao", type: "player" },
+  { id: 338, name: "Leandro Bacuna", team: "Curaçao", type: "player" },
+  { id: 339, name: "Livano Comenencia", team: "Curaçao", type: "player" },
+  { id: 340, name: "Franck Kessié", team: "Costa do Marfim", type: "player" },
+  { id: 341, name: "Van Diomandé", team: "Costa do Marfim", type: "player" },
+  { id: 342, name: "Evann Guessand", team: "Costa do Marfim", type: "player" },
+  { id: 343, name: "Pervis Estupiñán", team: "Equador", type: "player" },
+  { id: 344, name: "Willian Pacho", team: "Equador", type: "player" },
+  { id: 345, name: "Piero Hincapié", team: "Equador", type: "player" },
+  { id: 346, name: "Ángelo Preciado", team: "Equador", type: "player" },
+  // NETHERLANDS
+  { id: 347, name: "Escudo", team: "Holanda", type: "escudo" },
+  { id: 348, name: "Foto do Time", team: "Holanda", type: "foto" },
+  { id: 349, name: "Bart Verbruggen", team: "Holanda", type: "player" },
+  { id: 350, name: "Memphis Depay", team: "Holanda", type: "player" },
+  { id: 351, name: "Donyell Malen", team: "Holanda", type: "player" },
+  { id: 352, name: "Wout Weghorst", team: "Holanda", type: "player" },
+  { id: 353, name: "Justin Kluivert", team: "Holanda", type: "player" },
+  { id: 354, name: "Xavi Simons", team: "Holanda", type: "player" },
+  { id: 355, name: "Ryan Gravenberch", team: "Holanda", type: "player" },
+  { id: 356, name: "Tijjani Reijnders", team: "Holanda", type: "player" },
+  { id: 357, name: "Teun Koopmeiners", team: "Holanda", type: "player" },
+  { id: 358, name: "Frenkie De Jong", team: "Holanda", type: "player" },
+  { id: 359, name: "Denzel Dumfries", team: "Holanda", type: "player" },
+  { id: 360, name: "Jan Paul Van Hecke", team: "Holanda", type: "player" },
+  { id: 361, name: "Virgil Van Dijk", team: "Holanda", type: "player" },
+  { id: 362, name: "Micky Van De Ven", team: "Holanda", type: "player" },
+  // JAPAN
+  { id: 363, name: "Escudo", team: "Japão", type: "escudo" },
+  { id: 364, name: "Foto do Time", team: "Japão", type: "foto" },
+  { id: 365, name: "Zion Susuki", team: "Japão", type: "player" },
+  { id: 366, name: "Takefusa Kubo", team: "Japão", type: "player" },
+  { id: 367, name: "Shuto Machino", team: "Japão", type: "player" },
+  { id: 368, name: "Junya Ito", team: "Japão", type: "player" },
+  { id: 369, name: "Koki Ogawa", team: "Japão", type: "player" },
+  { id: 370, name: "Ayase Ueda", team: "Japão", type: "player" },
+  { id: 371, name: "Ritsu Doan", team: "Japão", type: "player" },
+  { id: 372, name: "Keito Nakamura", team: "Japão", type: "player" },
+  { id: 373, name: "Henry Heroki Mochizuki", team: "Japão", type: "player" },
+  { id: 374, name: "Ayumu Seko", team: "Japão", type: "player" },
+  { id: 375, name: "Junnosuke Suzuki", team: "Japão", type: "player" },
+  { id: 376, name: "Kaishu Sano", team: "Japão", type: "player" },
+  // SWEDEN
+  { id: 377, name: "Escudo", team: "Suécia", type: "escudo" },
+  { id: 378, name: "Foto do Time", team: "Suécia", type: "foto" },
+  { id: 379, name: "Viktor Johansson", team: "Suécia", type: "player" },
+  { id: 380, name: "Isak Hien", team: "Suécia", type: "player" },
+  { id: 381, name: "Yasin Avari", team: "Suécia", type: "player" },
+  { id: 382, name: "Victor Nilsson Lindelöf", team: "Suécia", type: "player" },
+  { id: 383, name: "Hugo Larsson", team: "Suécia", type: "player" },
+  { id: 384, name: "Daniel Svensson", team: "Suécia", type: "player" },
+  { id: 385, name: "Lucas Bergvall", team: "Suécia", type: "player" },
+  { id: 386, name: "Ken Sema", team: "Suécia", type: "player" },
+  { id: 387, name: "Jesper Karlström", team: "Suécia", type: "player" },
+  { id: 388, name: "Emil Holm", team: "Suécia", type: "player" },
+  { id: 389, name: "Roony Bardghiji", team: "Suécia", type: "player" },
+  { id: 390, name: "Viktor Gyökeres", team: "Suécia", type: "player" },
+  // TUNISIA
+  { id: 391, name: "Escudo", team: "Tunísia", type: "escudo" },
+  { id: 392, name: "Foto do Time", team: "Tunísia", type: "foto" },
+  { id: 393, name: "Aymen Dahmen", team: "Tunísia", type: "player" },
+  { id: 394, name: "Bechir Ben Saïd", team: "Tunísia", type: "player" },
+  { id: 395, name: "Yassine Meriah", team: "Tunísia", type: "player" },
+  { id: 396, name: "Ali Abdi", team: "Tunísia", type: "player" },
+  { id: 397, name: "Ellyes Skhiri", team: "Tunísia", type: "player" },
+  { id: 398, name: "Yan Valery", team: "Tunísia", type: "player" },
+  { id: 399, name: "Montassar Talbi", team: "Tunísia", type: "player" },
+  { id: 400, name: "Hannibal Mejbri", team: "Tunísia", type: "player" },
+  { id: 401, name: "Aïssa Laïdouni", team: "Tunísia", type: "player" },
+  { id: 402, name: "Ferjani Sassi", team: "Tunísia", type: "player" },
+  { id: 403, name: "Naïm Sliti", team: "Tunísia", type: "player" },
+  { id: 404, name: "Elias Saad", team: "Tunísia", type: "player" },
+  // Mixed p30
+  { id: 405, name: "Jeremie Frimpong", team: "Holanda", type: "player" },
+  { id: 406, name: "Nathan Aké", team: "Holanda", type: "player" },
+  { id: 407, name: "Yuki Soma", team: "Japão", type: "player" },
+  { id: 408, name: "Ao Tanaka", team: "Japão", type: "player" },
+  { id: 409, name: "Shogo Taniguchi", team: "Japão", type: "player" },
+  { id: 410, name: "Alexander Isak", team: "Suécia", type: "player" },
+  { id: 411, name: "Dejan Kulusevski", team: "Suécia", type: "player" },
+  { id: 412, name: "Gustaf Lagerbielke", team: "Suécia", type: "player" },
+  { id: 413, name: "Mattias Svanberg", team: "Suécia", type: "player" },
+  { id: 414, name: "Hazem Mastouri", team: "Tunísia", type: "player" },
+  { id: 415, name: "Mohamed Ali Ben Romdhane", team: "Tunísia", type: "player" },
+  { id: 416, name: "Dylan Bronn", team: "Tunísia", type: "player" },
+  // BELGIUM
+  { id: 417, name: "Escudo", team: "Bélgica", type: "escudo" },
+  { id: 418, name: "Foto do Time", team: "Bélgica", type: "foto" },
+  { id: 419, name: "Thibaut Courtois", team: "Bélgica", type: "player" },
+  { id: 420, name: "Timothy Castagne", team: "Bélgica", type: "player" },
+  { id: 421, name: "Arthur Theate", team: "Bélgica", type: "player" },
+  { id: 422, name: "Maxim De Cuyper", team: "Bélgica", type: "player" },
+  { id: 423, name: "Thomas Meunier", team: "Bélgica", type: "player" },
+  { id: 424, name: "Alexis Saelemaekeres", team: "Bélgica", type: "player" },
+  { id: 425, name: "Youri Tielemans", team: "Bélgica", type: "player" },
+  { id: 426, name: "Nicolas Raskin", team: "Bélgica", type: "player" },
+  { id: 427, name: "Leandro Trossard", team: "Bélgica", type: "player" },
+  // EGYPT
+  { id: 428, name: "Escudo", team: "Egito", type: "escudo" },
+  { id: 429, name: "Foto do Time", team: "Egito", type: "foto" },
+  { id: 430, name: "Mohamed Elshenawi", team: "Egito", type: "player" },
+  { id: 431, name: "Mohamed Hamdy", team: "Egito", type: "player" },
+  { id: 432, name: "Hamdy Fathy", team: "Egito", type: "player" },
+  { id: 433, name: "Hossam Abdelmaguid", team: "Egito", type: "player" },
+  { id: 434, name: "Mohamed Hany", team: "Egito", type: "player" },
+  { id: 435, name: "Vasser Ibrahim", team: "Egito", type: "player" },
+  { id: 436, name: "Mostafa Mohamed", team: "Egito", type: "player" },
+  { id: 437, name: "Mohanad Lasheen", team: "Egito", type: "player" },
+  { id: 438, name: "Marwan Attia", team: "Egito", type: "player" },
+  { id: 439, name: "Emam Ashour", team: "Egito", type: "player" },
+  { id: 440, name: "Osama Faisal", team: "Egito", type: "player" },
+  // IRAN
+  { id: 441, name: "Escudo", team: "Irã", type: "escudo" },
+  { id: 442, name: "Foto do Time", team: "Irã", type: "foto" },
+  { id: 443, name: "Alireza Beiranvand", team: "Irã", type: "player" },
+  { id: 444, name: "Milad Mohammadi", team: "Irã", type: "player" },
+  { id: 445, name: "Morteza Pouraliganji", team: "Irã", type: "player" },
+  { id: 446, name: "Mohammad Mohebi", team: "Irã", type: "player" },
+  { id: 447, name: "Omid Noorafkan", team: "Irã", type: "player" },
+  { id: 448, name: "Roozbeh Cheshmi", team: "Irã", type: "player" },
+  { id: 449, name: "Saman Ghoddos", team: "Irã", type: "player" },
+  { id: 450, name: "Saeed Ezatolahi", team: "Irã", type: "player" },
+  { id: 451, name: "Sadegh Moharrami", team: "Irã", type: "player" },
+  { id: 452, name: "Ehsan Hajsafi", team: "Irã", type: "player" },
+  { id: 453, name: "Ramin Rezaeian", team: "Irã", type: "player" },
+  // NEW ZEALAND
+  { id: 454, name: "Escudo", team: "Nova Zelândia", type: "escudo" },
+  { id: 455, name: "Foto do Time", team: "Nova Zelândia", type: "foto" },
+  { id: 456, name: "Alex Paulsen", team: "Nova Zelândia", type: "player" },
+  { id: 457, name: "Max Crocombe", team: "Nova Zelândia", type: "player" },
+  { id: 458, name: "Ben Old", team: "Nova Zelândia", type: "player" },
+  { id: 459, name: "Matthew Garbett", team: "Nova Zelândia", type: "player" },
+  { id: 460, name: "Marko Stamenić", team: "Nova Zelândia", type: "player" },
+  { id: 461, name: "Joe Bell", team: "Nova Zelândia", type: "player" },
+  { id: 462, name: "Sarpreet Singh", team: "Nova Zelândia", type: "player" },
+  { id: 463, name: "Ryan Thomas", team: "Nova Zelândia", type: "player" },
+  { id: 464, name: "Francis De Vries", team: "Nova Zelândia", type: "player" },
+  { id: 465, name: "Finn Surman", team: "Nova Zelândia", type: "player" },
+  { id: 466, name: "Tyler Bindon", team: "Nova Zelândia", type: "player" },
+  { id: 467, name: "Tim Payne", team: "Nova Zelândia", type: "player" },
+  // Mixed p35
+  { id: 468, name: "Romelu Lukaku", team: "Bélgica", type: "player" },
+  { id: 469, name: "Jérémy Doku", team: "Bélgica", type: "player" },
+  { id: 470, name: "Charles De Ketelaere", team: "Bélgica", type: "player" },
+  { id: 471, name: "Loïs Openda", team: "Bélgica", type: "player" },
+  { id: 472, name: "Zizo", team: "Egito", type: "player" },
+  { id: 473, name: "Trezeguet", team: "Egito", type: "player" },
+  { id: 474, name: "Mohamed Salah", team: "Egito", type: "player" },
+  { id: 475, name: "Omar Marmoush", team: "Egito", type: "player" },
+  { id: 476, name: "Ali Gholizadeh", team: "Irã", type: "player" },
+  { id: 477, name: "Mehdi Taremi", team: "Irã", type: "player" },
+  { id: 478, name: "Sardar Azmoun", team: "Irã", type: "player" },
+  { id: 479, name: "Alireza Jahanbakhsh", team: "Irã", type: "player" },
+  { id: 480, name: "Elijah Just", team: "Nova Zelândia", type: "player" },
+  { id: 481, name: "Chris Wood", team: "Nova Zelândia", type: "player" },
+  { id: 482, name: "Callum McCowatt", team: "Nova Zelândia", type: "player" },
+  { id: 483, name: "Kosta Barbarouses", team: "Nova Zelândia", type: "player" },
+  // SPAIN
+  { id: 484, name: "Escudo", team: "Espanha", type: "escudo" },
+  { id: 485, name: "Foto do Time", team: "Espanha", type: "foto" },
+  { id: 486, name: "Unai Simón", team: "Espanha", type: "player" },
+  { id: 487, name: "Ferrán Torres", team: "Espanha", type: "player" },
+  { id: 488, name: "Nico Williams", team: "Espanha", type: "player" },
+  { id: 489, name: "Dani Olmo", team: "Espanha", type: "player" },
+  { id: 490, name: "Mikel Oyarzabal", team: "Espanha", type: "player" },
+  { id: 491, name: "Fabián Ruiz", team: "Espanha", type: "player" },
+  { id: 492, name: "Rodri", team: "Espanha", type: "player" },
+  { id: 493, name: "Martín Zubimendi", team: "Espanha", type: "player" },
+  { id: 494, name: "Marc Cucurella", team: "Espanha", type: "player" },
+  { id: 495, name: "Dani Carvajal", team: "Espanha", type: "player" },
+  // CABO VERDE
+  { id: 496, name: "Escudo", team: "Cabo Verde", type: "escudo" },
+  { id: 497, name: "Foto do Time", team: "Cabo Verde", type: "foto" },
+  { id: 498, name: "Vozinha", team: "Cabo Verde", type: "player" },
+  { id: 499, name: "Kevin Pina", team: "Cabo Verde", type: "player" },
+  { id: 500, name: "Dinev", team: "Cabo Verde", type: "player" },
+  { id: 501, name: "Patrick Andrade", team: "Cabo Verde", type: "player" },
+  { id: 502, name: "Logan Costa", team: "Cabo Verde", type: "player" },
+  { id: 503, name: "João Paulo", team: "Cabo Verde", type: "player" },
+  { id: 504, name: "Deroy Duarte", team: "Cabo Verde", type: "player" },
+  { id: 505, name: "Vannick Semedo", team: "Cabo Verde", type: "player" },
+  { id: 506, name: "Garry Rodrigues", team: "Cabo Verde", type: "player" },
+  { id: 507, name: "Bebé", team: "Cabo Verde", type: "player" },
+  { id: 508, name: "Willy Semedo", team: "Cabo Verde", type: "player" },
+  // SAUDI ARABIA
+  { id: 509, name: "Escudo", team: "Arábia Saudita", type: "escudo" },
+  { id: 510, name: "Foto do Time", team: "Arábia Saudita", type: "foto" },
+  { id: 511, name: "Abdulrahman Alsanbi", team: "Arábia Saudita", type: "player" },
+  { id: 512, name: "Nawaf Alaqidi", team: "Arábia Saudita", type: "player" },
+  { id: 513, name: "Hassan Altambakti", team: "Arábia Saudita", type: "player" },
+  { id: 514, name: "Saud Abdulhamid", team: "Arábia Saudita", type: "player" },
+  { id: 515, name: "Jehad Thikri", team: "Arábia Saudita", type: "player" },
+  { id: 516, name: "Musab Aljuwayr", team: "Arábia Saudita", type: "player" },
+  { id: 517, name: "Ziyad Aljohani", team: "Arábia Saudita", type: "player" },
+  { id: 518, name: "Abdullah Alkhaibari", team: "Arábia Saudita", type: "player" },
+  { id: 519, name: "Nawaf Buwashl", team: "Arábia Saudita", type: "player" },
+  { id: 520, name: "Salem Aldawsari", team: "Arábia Saudita", type: "player" },
+  { id: 521, name: "Marwan Alsahafi", team: "Arábia Saudita", type: "player" },
+  { id: 522, name: "Abdullah Alhamdan", team: "Arábia Saudita", type: "player" },
+  // URUGUAY
+  { id: 523, name: "Escudo", team: "Uruguai", type: "escudo" },
+  { id: 524, name: "Foto do Time", team: "Uruguai", type: "foto" },
+  { id: 525, name: "Sergio Rochet", team: "Uruguai", type: "player" },
+  { id: 526, name: "Darwin Núñez", team: "Uruguai", type: "player" },
+  { id: 527, name: "Rodrigo Aguirre", team: "Uruguai", type: "player" },
+  { id: 528, name: "Facundo Pellistri", team: "Uruguai", type: "player" },
+  { id: 529, name: "Federico Viñas", team: "Uruguai", type: "player" },
+  { id: 530, name: "Giorgian De Arrascaeta", team: "Uruguai", type: "player" },
+  { id: 531, name: "Maxi Araújo", team: "Uruguai", type: "player" },
+  { id: 532, name: "Nicolás De La Cruz", team: "Uruguai", type: "player" },
+  { id: 533, name: "Rodrigo Bentancur", team: "Uruguai", type: "player" },
+  { id: 534, name: "Manuel Ugarte", team: "Uruguai", type: "player" },
+  { id: 535, name: "Federico Valverde", team: "Uruguai", type: "player" },
+  { id: 536, name: "Sebastián Cáceres", team: "Uruguai", type: "player" },
+  { id: 537, name: "Nahitan Nández", team: "Uruguai", type: "player" },
+  // Mixed p40
+  { id: 538, name: "Pedro Porro", team: "Espanha", type: "player" },
+  { id: 539, name: "Dean Huijsen", team: "Espanha", type: "player" },
+  { id: 540, name: "Aymeric Laporte", team: "Espanha", type: "player" },
+  { id: 541, name: "Robin Le Normand", team: "Espanha", type: "player" },
+  { id: 542, name: "Jovane Cabral", team: "Cabo Verde", type: "player" },
+  { id: 543, name: "Jamiro Monteiro", team: "Cabo Verde", type: "player" },
+  { id: 544, name: "Dailon Livramento", team: "Cabo Verde", type: "player" },
+  { id: 545, name: "Feras Albrikan", team: "Arábia Saudita", type: "player" },
+  { id: 546, name: "Saleh Abu Alshamat", team: "Arábia Saudita", type: "player" },
+  { id: 547, name: "Guillermo Varela", team: "Uruguai", type: "player" },
+  { id: 548, name: "José María Giménez", team: "Uruguai", type: "player" },
+  { id: 549, name: "Santiago Mele", team: "Uruguai", type: "player" },
+  // FRANCE
+  { id: 550, name: "Escudo", team: "França", type: "escudo" },
+  { id: 551, name: "Foto do Time", team: "França", type: "foto" },
+  { id: 552, name: "Kylian Mbappé", team: "França", type: "player" },
+  { id: 553, name: "Hugo Ekitiké", team: "França", type: "player" },
+  { id: 554, name: "Kingsley Coman", team: "França", type: "player" },
+  { id: 555, name: "Désiré Doué", team: "França", type: "player" },
+  { id: 556, name: "Bradley Barcola", team: "França", type: "player" },
+  { id: 557, name: "Ousmane Dembélé", team: "França", type: "player" },
+  { id: 558, name: "Adrien Rabiot", team: "França", type: "player" },
+  { id: 559, name: "Manu Koné", team: "França", type: "player" },
+  { id: 560, name: "Aurélien Tchouaméni", team: "França", type: "player" },
+  { id: 561, name: "Michael Olise", team: "França", type: "player" },
+  { id: 562, name: "Lucas Digne", team: "França", type: "player" },
+  { id: 563, name: "Dayot Upamecano", team: "França", type: "player" },
+  // SENEGAL
+  { id: 564, name: "Escudo", team: "Senegal", type: "escudo" },
+  { id: 565, name: "Foto do Time", team: "Senegal", type: "foto" },
+  { id: 566, name: "Édouard Mendy", team: "Senegal", type: "player" },
+  { id: 567, name: "Yehvann Diouf", team: "Senegal", type: "player" },
+  { id: 568, name: "Pape Matar Sarr", team: "Senegal", type: "player" },
+  { id: 569, name: "Habib Diarra", team: "Senegal", type: "player" },
+  { id: 570, name: "Abdoulaye Seck", team: "Senegal", type: "player" },
+  { id: 571, name: "Ismail Jakobs", team: "Senegal", type: "player" },
+  { id: 572, name: "Moussa Niakhaté", team: "Senegal", type: "player" },
+  { id: 573, name: "Lamine Camara", team: "Senegal", type: "player" },
+  { id: 574, name: "Idrissa Gana Gueye", team: "Senegal", type: "player" },
+  { id: 575, name: "El Hadji Malick Diouf", team: "Senegal", type: "player" },
+  { id: 576, name: "Ismaïla Sarr", team: "Senegal", type: "player" },
+  { id: 577, name: "Kalidou Koulibaly", team: "Senegal", type: "player" },
+  // IRAQ
+  { id: 578, name: "Escudo", team: "Iraque", type: "escudo" },
+  { id: 579, name: "Foto do Time", team: "Iraque", type: "foto" },
+  { id: 580, name: "Jalal Hassan", team: "Iraque", type: "player" },
+  { id: 581, name: "Osama Rashid", team: "Iraque", type: "player" },
+  { id: 582, name: "Marko Farji", team: "Iraque", type: "player" },
+  { id: 583, name: "Aimar Sher", team: "Iraque", type: "player" },
+  { id: 584, name: "Youssef Amyn", team: "Iraque", type: "player" },
+  { id: 585, name: "Amir Al-Ammari", team: "Iraque", type: "player" },
+  { id: 586, name: "Zidane Iqbal", team: "Iraque", type: "player" },
+  { id: 587, name: "Ibrahim Bayesh", team: "Iraque", type: "player" },
+  { id: 588, name: "Ali Jasim", team: "Iraque", type: "player" },
+  { id: 589, name: "Merchas Doski", team: "Iraque", type: "player" },
+  { id: 590, name: "Zaid Tahseen", team: "Iraque", type: "player" },
+  { id: 591, name: "Manaf Younis", team: "Iraque", type: "player" },
+  // NORWAY
+  { id: 592, name: "Escudo", team: "Noruega", type: "escudo" },
+  { id: 593, name: "Foto do Time", team: "Noruega", type: "foto" },
+  { id: 594, name: "Ørjan Nyland", team: "Noruega", type: "player" },
+  { id: 595, name: "Erling Haaland", team: "Noruega", type: "player" },
+  { id: 596, name: "Jørgen Strand Larsen", team: "Noruega", type: "player" },
+  { id: 597, name: "Alexander Sørloth", team: "Noruega", type: "player" },
+  { id: 598, name: "Antonio Nusa", team: "Noruega", type: "player" },
+  { id: 599, name: "Oscar Bobb", team: "Noruega", type: "player" },
+  { id: 600, name: "Aron Dønnum", team: "Noruega", type: "player" },
+  { id: 601, name: "Martin Ødegaard", team: "Noruega", type: "player" },
+  { id: 602, name: "Morten Thorsby", team: "Noruega", type: "player" },
+  { id: 603, name: "Sander Berge", team: "Noruega", type: "player" },
+  { id: 604, name: "Andreas Schjelderup", team: "Noruega", type: "player" },
+  { id: 605, name: "Torbjørn Heggem", team: "Noruega", type: "player" },
+  { id: 606, name: "Kristoffer Vassbakk Ajer", team: "Noruega", type: "player" },
+  // Mixed p45
+  { id: 607, name: "Ibrahima Konaté", team: "França", type: "player" },
+  { id: 608, name: "William Saliba", team: "França", type: "player" },
+  { id: 609, name: "Boulaye Dia", team: "Senegal", type: "player" },
+  { id: 610, name: "Iliman Ndiaye", team: "Senegal", type: "player" },
+  { id: 611, name: "Nicolas Jackson", team: "Senegal", type: "player" },
+  { id: 612, name: "Sadio Mané", team: "Senegal", type: "player" },
+  { id: 613, name: "Aymen Hussein", team: "Iraque", type: "player" },
+  { id: 614, name: "Mohanad Ali", team: "Iraque", type: "player" },
+  { id: 615, name: "Akam Hashem", team: "Iraque", type: "player" },
+  { id: 616, name: "Rebin Sulaka", team: "Iraque", type: "player" },
+  { id: 617, name: "David Møller Wolfe", team: "Noruega", type: "player" },
+  { id: 618, name: "Marcus Holmgren Pedersen", team: "Noruega", type: "player" },
+  { id: 619, name: "Julian Ryerson", team: "Noruega", type: "player" },
+  // ARGENTINA
+  { id: 620, name: "Escudo", team: "Argentina", type: "escudo" },
+  { id: 621, name: "Foto do Time", team: "Argentina", type: "foto" },
+  { id: 622, name: "Emiliano Martínez", team: "Argentina", type: "player" },
+  { id: 623, name: "Nico González", team: "Argentina", type: "player" },
+  { id: 624, name: "Giuliano Simeone", team: "Argentina", type: "player" },
+  { id: 625, name: "Julián Álvarez", team: "Argentina", type: "player" },
+  { id: 626, name: "Franco Mastantuono", team: "Argentina", type: "player" },
+  { id: 627, name: "Enzo Fernández", team: "Argentina", type: "player" },
+  { id: 628, name: "Alexis Mac Allister", team: "Argentina", type: "player" },
+  { id: 629, name: "Leandro Paredes", team: "Argentina", type: "player" },
+  { id: 630, name: "Exequiel Palacios", team: "Argentina", type: "player" },
+  { id: 631, name: "Cristian Romero", team: "Argentina", type: "player" },
+  // ALGERIA
+  { id: 632, name: "Escudo", team: "Argélia", type: "escudo" },
+  { id: 633, name: "Foto do Time", team: "Argélia", type: "foto" },
+  { id: 634, name: "Alexis Guendouz", team: "Argélia", type: "player" },
+  { id: 635, name: "Aïssa Mandi", team: "Argélia", type: "player" },
+  { id: 636, name: "Youcef Atal", team: "Argélia", type: "player" },
+  { id: 637, name: "Rayan Aït-Nouri", team: "Argélia", type: "player" },
+  { id: 638, name: "Mohamed Amine Tougai", team: "Argélia", type: "player" },
+  { id: 639, name: "Ismaël Bennacer", team: "Argélia", type: "player" },
+  { id: 640, name: "Farès Chaïbi", team: "Argélia", type: "player" },
+  { id: 641, name: "Houssem Aouar", team: "Argélia", type: "player" },
+  { id: 642, name: "Ramiz Zerrouki", team: "Argélia", type: "player" },
+  { id: 643, name: "Baghdad Bounedjah", team: "Argélia", type: "player" },
+  { id: 644, name: "Riyad Mahrez", team: "Argélia", type: "player" },
+  { id: 645, name: "Amine Gouiri", team: "Argélia", type: "player" },
+  // AUSTRIA
+  { id: 646, name: "Escudo", team: "Áustria", type: "escudo" },
+  { id: 647, name: "Foto do Time", team: "Áustria", type: "foto" },
+  { id: 648, name: "Patrick Pentz", team: "Áustria", type: "player" },
+  { id: 649, name: "Kevin Danso", team: "Áustria", type: "player" },
+  { id: 650, name: "Philipp Lienhart", team: "Áustria", type: "player" },
+  { id: 651, name: "Alexander Prass", team: "Áustria", type: "player" },
+  { id: 652, name: "Stefan Posch", team: "Áustria", type: "player" },
+  { id: 653, name: "Konrad Laimer", team: "Áustria", type: "player" },
+  { id: 654, name: "Xaver Schlager", team: "Áustria", type: "player" },
+  { id: 655, name: "Marcel Sabitzer", team: "Áustria", type: "player" },
+  { id: 656, name: "Nicolas Seiwald", team: "Áustria", type: "player" },
+  { id: 657, name: "Romano Schmid", team: "Áustria", type: "player" },
+  { id: 658, name: "Patrick Wimmer", team: "Áustria", type: "player" },
+  // JORDAN
+  { id: 659, name: "Escudo", team: "Jordânia", type: "escudo" },
+  { id: 660, name: "Foto do Time", team: "Jordânia", type: "foto" },
+  { id: 661, name: "Yazeed Abulaila", team: "Jordânia", type: "player" },
+  { id: 662, name: "Mohammad Abu Hashish", team: "Jordânia", type: "player" },
+  { id: 663, name: "Yazan Al-Arab", team: "Jordânia", type: "player" },
+  { id: 664, name: "Mohammad Abualnadi", team: "Jordânia", type: "player" },
+  { id: 665, name: "Saleem Obaid", team: "Jordânia", type: "player" },
+  { id: 666, name: "Mohannad Abu Taha", team: "Jordânia", type: "player" },
+  { id: 667, name: "Ibrahim Saadeh", team: "Jordânia", type: "player" },
+  { id: 668, name: "Noor Al-Rawabdeh", team: "Jordânia", type: "player" },
+  { id: 669, name: "Amer Jamous", team: "Jordânia", type: "player" },
+  { id: 670, name: "Nizar Al-Rashdan", team: "Jordânia", type: "player" },
+  { id: 671, name: "Yazan Al-Naimat", team: "Jordânia", type: "player" },
+  { id: 672, name: "Mohammad Abu Zrayo", team: "Jordânia", type: "player" },
+  // Mixed p50
+  { id: 673, name: "Leonardo Balerdi", team: "Argentina", type: "player" },
+  { id: 674, name: "Nicolás Otamendi", team: "Argentina", type: "player" },
+  { id: 675, name: "Nahuel Molina", team: "Argentina", type: "player" },
+  { id: 676, name: "Nicolás Tagliafico", team: "Argentina", type: "player" },
+  { id: 677, name: "Saïd Benrahma", team: "Argélia", type: "player" },
+  { id: 678, name: "Nabil Bentaleb", team: "Argélia", type: "player" },
+  { id: 679, name: "Mohammed Amoura", team: "Argélia", type: "player" },
+  { id: 680, name: "Michael Gregoritsch", team: "Áustria", type: "player" },
+  { id: 681, name: "Marko Arnautović", team: "Áustria", type: "player" },
+  { id: 682, name: "Florian Grillitsch", team: "Áustria", type: "player" },
+  { id: 683, name: "Phillipp Mwene", team: "Áustria", type: "player" },
+  { id: 684, name: "Mousa Al-Taamari", team: "Jordânia", type: "player" },
+  { id: 685, name: "Ali Olwan", team: "Jordânia", type: "player" },
+  { id: 686, name: "Ibrahim Sabra", team: "Jordânia", type: "player" },
+  { id: 687, name: "Abdallah Nasib", team: "Jordânia", type: "player" },
+  // PORTUGAL
+  { id: 688, name: "Escudo", team: "Portugal", type: "escudo" },
+  { id: 689, name: "Foto do Time", team: "Portugal", type: "foto" },
+  { id: 690, name: "Diogo Costa", team: "Portugal", type: "player" },
+  { id: 691, name: "Cristiano Ronaldo", team: "Portugal", type: "player" },
+  { id: 692, name: "Francisco Trincão", team: "Portugal", type: "player" },
+  { id: 693, name: "Vitinha", team: "Portugal", type: "player" },
+  { id: 694, name: "Rúben Neves", team: "Portugal", type: "player" },
+  { id: 695, name: "Bruno Fernandes", team: "Portugal", type: "player" },
+  { id: 696, name: "Bernardo Silva", team: "Portugal", type: "player" },
+  { id: 697, name: "Gonçalo Inácio", team: "Portugal", type: "player" },
+  { id: 698, name: "Nuno Mendes", team: "Portugal", type: "player" },
+  { id: 699, name: "Diogo Dalot", team: "Portugal", type: "player" },
+  { id: 700, name: "João Cancelo", team: "Portugal", type: "player" },
+  { id: 701, name: "Rúben Dias", team: "Portugal", type: "player" },
+  // CONGO DR
+  { id: 702, name: "Escudo", team: "Congo DR", type: "escudo" },
+  { id: 703, name: "Foto do Time", team: "Congo DR", type: "foto" },
+  { id: 704, name: "Lionel Mpasi", team: "Congo DR", type: "player" },
+  { id: 705, name: "Arthur Masuaku", team: "Congo DR", type: "player" },
+  { id: 706, name: "Aaron Wan-Bissaka", team: "Congo DR", type: "player" },
+  { id: 707, name: "Joris Kayembe", team: "Congo DR", type: "player" },
+  { id: 708, name: "Axel Tuanzebe", team: "Congo DR", type: "player" },
+  { id: 709, name: "Chancel Mbemba", team: "Congo DR", type: "player" },
+  { id: 710, name: "Charles Pickel", team: "Congo DR", type: "player" },
+  { id: 711, name: "Ngal'avel Mukau", team: "Congo DR", type: "player" },
+  { id: 712, name: "Edo Kavembe", team: "Congo DR", type: "player" },
+  { id: 713, name: "Brian Cipenga", team: "Congo DR", type: "player" },
+  { id: 714, name: "Meschack Elia", team: "Congo DR", type: "player" },
+  { id: 715, name: "Yoane Wissa", team: "Congo DR", type: "player" },
+  // UZBEKISTAN
+  { id: 716, name: "Escudo", team: "Uzbequistão", type: "escudo" },
+  { id: 717, name: "Foto do Time", team: "Uzbequistão", type: "foto" },
+  { id: 718, name: "Utkir Yusupov", team: "Uzbequistão", type: "player" },
+  { id: 719, name: "Khojakbar Alijonov", team: "Uzbequistão", type: "player" },
+  { id: 720, name: "Sherzod Nasrullaev", team: "Uzbequistão", type: "player" },
+  { id: 721, name: "Rustam Ashurmatov", team: "Uzbequistão", type: "player" },
+  { id: 722, name: "Umar Eshmurodov", team: "Uzbequistão", type: "player" },
+  { id: 723, name: "Husniddin Aliqulov", team: "Uzbequistão", type: "player" },
+  { id: 724, name: "Aboukodir Khusanov", team: "Uzbequistão", type: "player" },
+  { id: 725, name: "Otabek Shukurov", team: "Uzbequistão", type: "player" },
+  { id: 726, name: "Azizbek Turgunboev", team: "Uzbequistão", type: "player" },
+  { id: 727, name: "Jamshid Iskanderov", team: "Uzbequistão", type: "player" },
+  { id: 728, name: "Odiljon Hamrobekov", team: "Uzbequistão", type: "player" },
+  { id: 729, name: "Khojimat Erkinov", team: "Uzbequistão", type: "player" },
+  { id: 730, name: "Oston Urunov", team: "Uzbequistão", type: "player" },
+  // COLOMBIA
+  { id: 731, name: "Escudo", team: "Colômbia", type: "escudo" },
+  { id: 732, name: "Foto do Time", team: "Colômbia", type: "foto" },
+  { id: 733, name: "David Ospina", team: "Colômbia", type: "player" },
+  { id: 734, name: "Luis Díaz", team: "Colômbia", type: "player" },
+  { id: 735, name: "Jhon Arias", team: "Colômbia", type: "player" },
+  { id: 736, name: "Jorge Carrascal", team: "Colômbia", type: "player" },
+  { id: 737, name: "Richard Ríos", team: "Colômbia", type: "player" },
+  { id: 738, name: "Juan Fernando Quintero", team: "Colômbia", type: "player" },
+  { id: 739, name: "Kevin Castaño", team: "Colômbia", type: "player" },
+  { id: 740, name: "Jefferson Lerma", team: "Colômbia", type: "player" },
+  { id: 741, name: "Santiago Arias", team: "Colômbia", type: "player" },
+  { id: 742, name: "Daniel Muñoz", team: "Colômbia", type: "player" },
+  // Mixed p55
+  { id: 743, name: "José Sá", team: "Portugal", type: "player" },
+  { id: 744, name: "Rafael Leão", team: "Portugal", type: "player" },
+  { id: 745, name: "Pedro Neto", team: "Portugal", type: "player" },
+  { id: 746, name: "Gonçalo Ramos", team: "Portugal", type: "player" },
+  { id: 747, name: "Nathanaël Mbuku", team: "Congo DR", type: "player" },
+  { id: 748, name: "Samuel Moutoussamy", team: "Congo DR", type: "player" },
+  { id: 749, name: "Noah Sadiki", team: "Congo DR", type: "player" },
+  { id: 750, name: "Théo Bongonda", team: "Congo DR", type: "player" },
+  { id: 751, name: "Igor Sergeev", team: "Uzbequistão", type: "player" },
+  { id: 752, name: "Jaloliddin Masharipov", team: "Uzbequistão", type: "player" },
+  { id: 753, name: "Eldor Shomurodov", team: "Uzbequistão", type: "player" },
+  { id: 754, name: "Verry Mina", team: "Colômbia", type: "player" },
+  { id: 755, name: "Johan Mojica", team: "Colômbia", type: "player" },
+  { id: 756, name: "Dávinson Sánchez", team: "Colômbia", type: "player" },
+  { id: 757, name: "Jhon Lucumí", team: "Colômbia", type: "player" },
+  // ENGLAND
+  { id: 758, name: "Escudo", team: "Inglaterra", type: "escudo" },
+  { id: 759, name: "Foto do Time", team: "Inglaterra", type: "foto" },
+  { id: 760, name: "Jordan Pickford", team: "Inglaterra", type: "player" },
+  { id: 761, name: "Harry Kane", team: "Inglaterra", type: "player" },
+  { id: 762, name: "Marcus Rashford", team: "Inglaterra", type: "player" },
+  { id: 763, name: "Phil Foden", team: "Inglaterra", type: "player" },
+  { id: 764, name: "Ollie Watkins", team: "Inglaterra", type: "player" },
+  { id: 765, name: "Anthony Gordon", team: "Inglaterra", type: "player" },
+  { id: 766, name: "Morgan Rogers", team: "Inglaterra", type: "player" },
+  { id: 767, name: "Jude Bellingham", team: "Inglaterra", type: "player" },
+  { id: 768, name: "Jordan Henderson", team: "Inglaterra", type: "player" },
+  { id: 769, name: "Cole Palmer", team: "Inglaterra", type: "player" },
+  { id: 770, name: "Dan Burn", team: "Inglaterra", type: "player" },
+  // CROATIA
+  { id: 771, name: "Escudo", team: "Croácia", type: "escudo" },
+  { id: 772, name: "Foto do Time", team: "Croácia", type: "foto" },
+  { id: 773, name: "Dominik Livaković", team: "Croácia", type: "player" },
+  { id: 774, name: "Franjo Ivanović", team: "Croácia", type: "player" },
+  { id: 775, name: "Marco Pašalić", team: "Croácia", type: "player" },
+  { id: 776, name: "Luka Modrić", team: "Croácia", type: "player" },
+  { id: 777, name: "Mateo Kovačić", team: "Croácia", type: "player" },
+  { id: 778, name: "Martin Baturina", team: "Croácia", type: "player" },
+  { id: 779, name: "Mario Pašalić", team: "Croácia", type: "player" },
+  { id: 780, name: "Petar Sučić", team: "Croácia", type: "player" },
+  { id: 781, name: "Kristijan Jakić", team: "Croácia", type: "player" },
+  { id: 782, name: "Duje Ćaleta-Car", team: "Croácia", type: "player" },
+  { id: 783, name: "Josip Stanišić", team: "Croácia", type: "player" },
+  // GHANA
+  { id: 784, name: "Escudo", team: "Gana", type: "escudo" },
+  { id: 785, name: "Foto do Time", team: "Gana", type: "foto" },
+  { id: 786, name: "Lawrence Ati Zigi", team: "Gana", type: "player" },
+  { id: 787, name: "Alidu Seidu", team: "Gana", type: "player" },
+  { id: 788, name: "Caleb Virenkyi", team: "Gana", type: "player" },
+  { id: 789, name: "Mohammed Salisu", team: "Gana", type: "player" },
+  { id: 790, name: "Abdul Issahaku Fatawu", team: "Gana", type: "player" },
+  { id: 791, name: "Salis Abdul Samed", team: "Gana", type: "player" },
+  { id: 792, name: "Thomas Partey", team: "Gana", type: "player" },
+  { id: 793, name: "Kamaldeen Sulemana", team: "Gana", type: "player" },
+  { id: 794, name: "Osman Bukari", team: "Gana", type: "player" },
+  { id: 795, name: "Antoine Semenvo", team: "Gana", type: "player" },
+  { id: 796, name: "Joseph Paintsil", team: "Gana", type: "player" },
+  // PANAMA
+  { id: 797, name: "Escudo", team: "Panamá", type: "escudo" },
+  { id: 798, name: "Foto do Time", team: "Panamá", type: "foto" },
+  { id: 799, name: "Luis Mejía", team: "Panamá", type: "player" },
+  { id: 800, name: "Orlando Mosquera", team: "Panamá", type: "player" },
+  { id: 801, name: "César Blackman", team: "Panamá", type: "player" },
+  { id: 802, name: "José Córdoba", team: "Panamá", type: "player" },
+  { id: 803, name: "Eric Davis", team: "Panamá", type: "player" },
+  { id: 804, name: "Cristian Martínez", team: "Panamá", type: "player" },
+  { id: 805, name: "Adalberto Carrasquilla", team: "Panamá", type: "player" },
+  { id: 806, name: "Édgar Bárcenas", team: "Panamá", type: "player" },
+  { id: 807, name: "Ismael Díaz", team: "Panamá", type: "player" },
+  { id: 808, name: "Cecilio Waterman", team: "Panamá", type: "player" },
+  { id: 809, name: "José Luis Rodríguez", team: "Panamá", type: "player" },
+  { id: 810, name: "Alberto Quintero", team: "Panamá", type: "player" },
+  // Mixed p60
+  { id: 811, name: "Reece James", team: "Inglaterra", type: "player" },
+  { id: 812, name: "Marc Guéhi", team: "Inglaterra", type: "player" },
+  { id: 813, name: "Ezri Konsa", team: "Inglaterra", type: "player" },
+  { id: 814, name: "Trent Alexander-Arnold", team: "Inglaterra", type: "player" },
+  { id: 815, name: "Luka Vušković", team: "Croácia", type: "player" },
+  { id: 816, name: "Josip Šutalo", team: "Croácia", type: "player" },
+  { id: 817, name: "Lovro Majer", team: "Croácia", type: "player" },
+  { id: 818, name: "Joško Gvardiol", team: "Croácia", type: "player" },
+  { id: 819, name: "Jordan Ayew", team: "Gana", type: "player" },
+  { id: 820, name: "Iñaki Williams", team: "Gana", type: "player" },
+  { id: 821, name: "Mohammed Kudus", team: "Gana", type: "player" },
+  { id: 822, name: "Gideon Mensah", team: "Gana", type: "player" },
+  { id: 823, name: "Carlos Harvey", team: "Panamá", type: "player" },
+  { id: 824, name: "Andrés Andrade", team: "Panamá", type: "player" },
+  { id: 825, name: "Fidel Escobar", team: "Panamá", type: "player" },
+  { id: 826, name: "José Fajardo", team: "Panamá", type: "player" },
+  // ESPECIAIS
+  { id: 827, name: "Panini / FIFA WC 2026", team: "Especial", type: "especial" },
+  { id: 828, name: "FIFA World Cup 2026 + Taça", team: "Especial", type: "especial" },
+  { id: 829, name: "Bola Oficial (TRIONDA)", team: "Especial", type: "especial" },
+  { id: 830, name: "WC 2026 (fundo azul)", team: "Especial", type: "especial" },
+  { id: 831, name: "WC 2026 (fundo vermelho)", team: "Especial", type: "especial" },
+  { id: 832, name: "WC 2026 (fundo verde)", team: "Especial", type: "especial" },
+  { id: 833, name: "WE ARE 26 FIFA", team: "Especial", type: "especial" },
+  // FIFA MUSEUM
+  { id: 834, name: "Itália 1934", team: "Museum", type: "museum" },
+  { id: 835, name: "Uruguai 1950", team: "Museum", type: "museum" },
+  { id: 836, name: "Alemanha FR 1954", team: "Museum", type: "museum" },
+  { id: 837, name: "Brasil 1962", team: "Museum", type: "museum" },
+  { id: 838, name: "Alemanha FR 1974", team: "Museum", type: "museum" },
+  { id: 839, name: "Argentina 1986", team: "Museum", type: "museum" },
+  { id: 840, name: "Brasil 1994", team: "Museum", type: "museum" },
+  { id: 841, name: "Brasil 2002", team: "Museum", type: "museum" },
+  { id: 842, name: "Itália 2006", team: "Museum", type: "museum" },
+  { id: 843, name: "Alemanha 2014", team: "Museum", type: "museum" },
+  { id: 844, name: "Argentina 2022", team: "Museum", type: "museum" },
+  // AÇÃO
+  { id: 845, name: "Joshua Kimmich", team: "Alemanha", type: "acao" },
+  { id: 846, name: "Harry Kane", team: "Inglaterra", type: "acao" },
+  { id: 847, name: "Santiago Giménez", team: "México", type: "acao" },
+  { id: 848, name: "Joško Gvardiol", team: "Croácia", type: "acao" },
+  { id: 849, name: "Federico Valverde", team: "Uruguai", type: "acao" },
+  { id: 850, name: "Jefferson Lerma", team: "Colômbia", type: "acao" },
+  { id: 851, name: "Enner Valencia", team: "Equador", type: "acao" },
+  { id: 852, name: "Emiliano Martínez", team: "Argentina", type: "acao" },
+  { id: 853, name: "Virgil Van Dijk", team: "Holanda", type: "acao" },
+  { id: 854, name: "Alphonso Davies", team: "Canadá", type: "acao" },
+  { id: 855, name: "Raúl Jiménez", team: "México", type: "acao" },
+  { id: 856, name: "Gabriel Magalhães", team: "Brasil", type: "acao" },
+  { id: 857, name: "Lautaro Martínez", team: "Argentina", type: "acao" },
+  // LEGENDS
+  { id: 858, name: "Vinícius Júnior", team: "Brasil", type: "legend-normal", variant: "Normal" },
+  { id: 859, name: "Vinícius Júnior", team: "Brasil", type: "legend-prata", variant: "Prata" },
+  { id: 860, name: "Vinícius Júnior", team: "Brasil", type: "legend-dourada", variant: "Dourada" },
+  { id: 861, name: "Vinícius Júnior", team: "Brasil", type: "legend-roxa", variant: "Roxa" },
+  { id: 862, name: "Lionel Messi", team: "Argentina", type: "legend-normal", variant: "Normal" },
+  { id: 863, name: "Lionel Messi", team: "Argentina", type: "legend-prata", variant: "Prata" },
+  { id: 864, name: "Lionel Messi", team: "Argentina", type: "legend-dourada", variant: "Dourada" },
+  { id: 865, name: "Lionel Messi", team: "Argentina", type: "legend-roxa", variant: "Roxa" },
+  { id: 866, name: "Cristiano Ronaldo", team: "Portugal", type: "legend-normal", variant: "Normal" },
+  { id: 867, name: "Cristiano Ronaldo", team: "Portugal", type: "legend-prata", variant: "Prata" },
+  { id: 868, name: "Cristiano Ronaldo", team: "Portugal", type: "legend-dourada", variant: "Dourada" },
+  { id: 869, name: "Cristiano Ronaldo", team: "Portugal", type: "legend-roxa", variant: "Roxa" },
+  { id: 870, name: "Lamine Yamal", team: "Espanha", type: "legend-normal", variant: "Normal" },
+  { id: 871, name: "Lamine Yamal", team: "Espanha", type: "legend-prata", variant: "Prata" },
+  { id: 872, name: "Lamine Yamal", team: "Espanha", type: "legend-dourada", variant: "Dourada" },
+  { id: 873, name: "Lamine Yamal", team: "Espanha", type: "legend-roxa", variant: "Roxa" },
+  { id: 874, name: "Kylian Mbappé", team: "França", type: "legend-normal", variant: "Normal" },
+  { id: 875, name: "Kylian Mbappé", team: "França", type: "legend-prata", variant: "Prata" },
+  { id: 876, name: "Kylian Mbappé", team: "França", type: "legend-dourada", variant: "Dourada" },
+  { id: 877, name: "Kylian Mbappé", team: "França", type: "legend-roxa", variant: "Roxa" },
+  { id: 878, name: "Mohamed Salah", team: "Egito", type: "legend-normal", variant: "Normal" },
+  { id: 879, name: "Mohamed Salah", team: "Egito", type: "legend-prata", variant: "Prata" },
+  { id: 880, name: "Mohamed Salah", team: "Egito", type: "legend-dourada", variant: "Dourada" },
+  { id: 881, name: "Mohamed Salah", team: "Egito", type: "legend-roxa", variant: "Roxa" },
+  { id: 882, name: "Erling Haaland", team: "Noruega", type: "legend-normal", variant: "Normal" },
+  { id: 883, name: "Erling Haaland", team: "Noruega", type: "legend-prata", variant: "Prata" },
+  { id: 884, name: "Erling Haaland", team: "Noruega", type: "legend-dourada", variant: "Dourada" },
+  { id: 885, name: "Erling Haaland", team: "Noruega", type: "legend-roxa", variant: "Roxa" },
+  { id: 886, name: "Jérémy Doku", team: "Bélgica", type: "legend-normal", variant: "Normal" },
+  { id: 887, name: "Jérémy Doku", team: "Bélgica", type: "legend-prata", variant: "Prata" },
+  { id: 888, name: "Jérémy Doku", team: "Bélgica", type: "legend-dourada", variant: "Dourada" },
+  { id: 889, name: "Jérémy Doku", team: "Bélgica", type: "legend-roxa", variant: "Roxa" },
+  { id: 890, name: "Moisés Caicedo", team: "Equador", type: "legend-normal", variant: "Normal" },
+  { id: 891, name: "Moisés Caicedo", team: "Equador", type: "legend-prata", variant: "Prata" },
+  { id: 892, name: "Moisés Caicedo", team: "Equador", type: "legend-dourada", variant: "Dourada" },
+  { id: 893, name: "Moisés Caicedo", team: "Equador", type: "legend-roxa", variant: "Roxa" },
+  { id: 894, name: "Luis Díaz", team: "Colômbia", type: "legend-normal", variant: "Normal" },
+  { id: 895, name: "Luis Díaz", team: "Colômbia", type: "legend-prata", variant: "Prata" },
+  { id: 896, name: "Luis Díaz", team: "Colômbia", type: "legend-dourada", variant: "Dourada" },
+  { id: 897, name: "Luis Díaz", team: "Colômbia", type: "legend-roxa", variant: "Roxa" },
+  { id: 898, name: "Jude Bellingham", team: "Inglaterra", type: "legend-normal", variant: "Normal" },
+  { id: 899, name: "Jude Bellingham", team: "Inglaterra", type: "legend-prata", variant: "Prata" },
+  { id: 900, name: "Jude Bellingham", team: "Inglaterra", type: "legend-dourada", variant: "Dourada" },
+  { id: 901, name: "Jude Bellingham", team: "Inglaterra", type: "legend-roxa", variant: "Roxa" },
+  { id: 902, name: "Florian Wirtz", team: "Alemanha", type: "legend-normal", variant: "Normal" },
+  { id: 903, name: "Florian Wirtz", team: "Alemanha", type: "legend-prata", variant: "Prata" },
+  { id: 904, name: "Florian Wirtz", team: "Alemanha", type: "legend-dourada", variant: "Dourada" },
+  { id: 905, name: "Florian Wirtz", team: "Alemanha", type: "legend-roxa", variant: "Roxa" },
+  { id: 906, name: "Christian Pulisic", team: "EUA", type: "legend-normal", variant: "Normal" },
+  { id: 907, name: "Christian Pulisic", team: "EUA", type: "legend-prata", variant: "Prata" },
+  { id: 908, name: "Christian Pulisic", team: "EUA", type: "legend-dourada", variant: "Dourada" },
+  { id: 909, name: "Christian Pulisic", team: "EUA", type: "legend-roxa", variant: "Roxa" },
+  { id: 910, name: "Raúl Jiménez", team: "México", type: "legend-normal", variant: "Normal" },
+  { id: 911, name: "Raúl Jiménez", team: "México", type: "legend-prata", variant: "Prata" },
+  { id: 912, name: "Raúl Jiménez", team: "México", type: "legend-dourada", variant: "Dourada" },
+  { id: 913, name: "Raúl Jiménez", team: "México", type: "legend-roxa", variant: "Roxa" },
+  { id: 914, name: "Alphonso Davies", team: "Canadá", type: "legend-normal", variant: "Normal" },
+  { id: 915, name: "Alphonso Davies", team: "Canadá", type: "legend-prata", variant: "Prata" },
+  { id: 916, name: "Alphonso Davies", team: "Canadá", type: "legend-dourada", variant: "Dourada" },
+  { id: 917, name: "Alphonso Davies", team: "Canadá", type: "legend-roxa", variant: "Roxa" },
+  { id: 918, name: "Achraf Hakimi", team: "Marrocos", type: "legend-normal", variant: "Normal" },
+  { id: 919, name: "Achraf Hakimi", team: "Marrocos", type: "legend-prata", variant: "Prata" },
+  { id: 920, name: "Achraf Hakimi", team: "Marrocos", type: "legend-dourada", variant: "Dourada" },
+  { id: 921, name: "Achraf Hakimi", team: "Marrocos", type: "legend-roxa", variant: "Roxa" },
+  { id: 922, name: "Luka Modrić", team: "Croácia", type: "legend-normal", variant: "Normal" },
+  { id: 923, name: "Luka Modrić", team: "Croácia", type: "legend-prata", variant: "Prata" },
+  { id: 924, name: "Luka Modrić", team: "Croácia", type: "legend-dourada", variant: "Dourada" },
+  { id: 925, name: "Luka Modrić", team: "Croácia", type: "legend-roxa", variant: "Roxa" },
+  { id: 926, name: "Heungmin Son", team: "Coreia do Sul", type: "legend-normal", variant: "Normal" },
+  { id: 927, name: "Heungmin Son", team: "Coreia do Sul", type: "legend-prata", variant: "Prata" },
+  { id: 928, name: "Heungmin Son", team: "Coreia do Sul", type: "legend-dourada", variant: "Dourada" },
+  { id: 929, name: "Heungmin Son", team: "Coreia do Sul", type: "legend-roxa", variant: "Roxa" },
+  { id: 930, name: "Federico Valverde", team: "Uruguai", type: "legend-normal", variant: "Normal" },
+  { id: 931, name: "Federico Valverde", team: "Uruguai", type: "legend-prata", variant: "Prata" },
+  { id: 932, name: "Federico Valverde", team: "Uruguai", type: "legend-dourada", variant: "Dourada" },
+  { id: 933, name: "Federico Valverde", team: "Uruguai", type: "legend-roxa", variant: "Roxa" },
+  { id: 934, name: "Cody Gakpo", team: "Holanda", type: "legend-normal", variant: "Normal" },
+  { id: 935, name: "Cody Gakpo", team: "Holanda", type: "legend-prata", variant: "Prata" },
+  { id: 936, name: "Cody Gakpo", team: "Holanda", type: "legend-dourada", variant: "Dourada" },
+  { id: 937, name: "Cody Gakpo", team: "Holanda", type: "legend-roxa", variant: "Roxa" },
+
+];
+
+// ─── RARITY
+const RARITY = {
+  escudo:         { weight: 3,  label: 'Escudo',           color: '#60a5fa', bg: '#1e3a5f' },
+  foto:           { weight: 3,  label: 'Time',             color: '#60a5fa', bg: '#1e3a5f' },
+  player:         { weight: 55, label: 'Jogador',          color: '#e2e8f0', bg: '#1a2744' },
+  especial:       { weight: 8,  label: 'Especial',         color: '#fbbf24', bg: '#2d1f00' },
+  museum:         { weight: 6,  label: 'Museum',           color: '#a78bfa', bg: '#1e1040' },
+  acao:           { weight: 10, label: 'Ação ⚡',           color: '#34d399', bg: '#002a1a' },
+  'legend-normal':{ weight: 8,  label: 'Legend',           color: '#fb923c', bg: '#2a1000' },
+  'legend-prata': { weight: 4,  label: 'Legend Prata ✨',  color: '#cbd5e1', bg: '#1a1f2a' },
+  'legend-dourada':{ weight: 2, label: 'Legend Dourada 🌟',color: '#fcd34d', bg: '#2a1f00' },
+  'legend-roxa':  { weight: 1,  label: 'Legend Roxa 💜',   color: '#c084fc', bg: '#1a0030' },
+};
+
+const ICONS = {
+  escudo:'🛡️', foto:'📸', player:'⚽', especial:'🏆', museum:'🏛️', acao:'⚡',
+  'legend-normal':'🌟','legend-prata':'✨','legend-dourada':'🌟','legend-roxa':'💜',
+};
+
+// ─── STORAGE
+const STORAGE_KEY = 'panini_wc2026_save';
+function saveData(pulledSet, count) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ids: [...pulledSet], count }));
+  } catch(e) { console.error(e); }
+}
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ids: new Set(), count: 0 };
+    const d = JSON.parse(raw);
+    return { ids: new Set((d.ids||[]).map(Number)), count: Number(d.count)||0 };
+  } catch { return { ids: new Set(), count: 0 }; }
+}
+
+// ─── WEIGHTED RANDOM
+function weightedRandom(arr) {
+  const total = arr.reduce((s,x) => s + (RARITY[x.type]?.weight||3), 0);
+  let r = Math.random() * total;
+  for (const x of arr) { r -= (RARITY[x.type]?.weight||3); if (r <= 0) return x; }
+  return arr[arr.length-1];
+}
+
+// ─── STATE
+let state = {
+  pulled: new Set(),
+  packCount: 0,
+  packSize: 16,
+  lastPack: [],
+  showAll: false,
+  view: 'pack',
+  filterTeam: 'Todos',
+  filterType: 'Todos',
+  opening: false,
+};
+
+function init() {
+  const d = loadData();
+  state.pulled = d.ids;
+  state.packCount = d.count;
+  render();
+}
+
+// ─── RENDER
+function render() {
+  const app = document.getElementById('app');
+  const total = ALL_STICKERS.length;
+  const pulledCount = state.pulled.size;
+  const progress = Math.round((pulledCount / total) * 100);
+  const available = ALL_STICKERS.filter(s => !state.pulled.has(s.id));
+  const pulledStickers = ALL_STICKERS.filter(s => state.pulled.has(s.id));
+  const legendCount = pulledStickers.filter(s => s.type.startsWith('legend')).length;
+
+  const teams = ['Todos', ...[...new Set(ALL_STICKERS.map(s => s.team))].sort()];
+  const types = ['Todos', ...[...new Set(ALL_STICKERS.map(s => RARITY[s.type]?.label || s.type))]];
+  const filteredCol = pulledStickers.filter(s => {
+    const tok = state.filterTeam === 'Todos' || s.team === state.filterTeam;
+    const tyk = state.filterType === 'Todos' || (RARITY[s.type]?.label||s.type) === state.filterType;
+    return tok && tyk;
+  });
+
+  const displayedPack = state.showAll ? state.lastPack : state.lastPack.slice(0,16);
+
+  app.innerHTML = `
+  <div class="header">
+    <div class="title">🏆 PANINI FIFA WC 2026</div>
+    <div class="subtitle">SIMULADOR DE ÁLBUM</div>
+    <div style="margin:10px 0 4px;display:flex;justify-content:space-between;font-size:11px;color:#94a3b8;">
+      <span>${pulledCount} / ${total} figurinhas</span>
+      <span style="color:${progress>=100?'#34d399':'#fbbf24'};font-weight:700">${progress}%</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%"></div></div>
+    <div class="stats">
+      ${[['📦','Pacotes',state.packCount],['🎯','Restantes',total-pulledCount],['💎','Lendas',legendCount]].map(([ic,lb,vl])=>`
+        <div class="stat-box">
+          <div class="stat-icon">${ic}</div>
+          <div class="stat-val">${vl}</div>
+          <div class="stat-label">${lb}</div>
+        </div>`).join('')}
+    </div>
+    <div class="tabs">
+      <button class="tab ${state.view==='pack'?'active':'inactive'}" onclick="setView('pack')">📦 PACOTE</button>
+      <button class="tab ${state.view==='collection'?'active':'inactive'}" onclick="setView('collection')">📒 COLEÇÃO</button>
+    </div>
+  </div>
+
+  <div class="content">
+    ${state.view === 'pack' ? `
+      <div class="card-box">
+        <div class="section-label">CONFIGURAR PACOTE</div>
+        <div class="qty-row">
+          <div style="flex:1">
+            <div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Qtd. de figurinhas</div>
+            <input class="qty-input" type="number" min="1" max="${Math.max(1,available.length)}" value="${state.packSize}" oninput="setPackSize(this.value)" />
+          </div>
+          <div class="qty-btns">
+            ${[1,5,16,50].map(n=>`<button class="qty-btn" style="background:${state.packSize==n?'#3b82f6':'#1e293b'};color:${state.packSize==n?'#fff':'#64748b'}" onclick="setQty(${n})">${n}</button>`).join('')}
+          </div>
+        </div>
+        <button class="open-btn ${available.length===0?'disabled':state.opening?'active opening':'active'}"
+          onclick="openPack()" ${available.length===0||state.opening?'disabled':''}>
+          ${available.length===0?'🎉 ÁLBUM COMPLETO!':state.opening?'ABRINDO...':`📦 ABRIR PACOTE (${Math.min(state.packSize,available.length)} fig.)`}
+        </button>
+        <button onclick="resetAlbum()" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid #ef444433;background:transparent;color:#ef4444;cursor:pointer;font-size:11px;font-weight:600;">
+          🔄 Resetar álbum
+        </button>
+      </div>
+
+      ${state.lastPack.length > 0 ? `
+        <div class="pack-label">ÚLTIMO PACOTE — ${state.lastPack.length} figurinhas</div>
+        <div class="grid">
+          ${displayedPack.map((s,i) => renderCard(s, true, i*0.04)).join('')}
+        </div>
+        ${state.lastPack.length > 16 && !state.showAll ? `
+          <button class="see-more-btn" onclick="showMore()">Ver todas (${state.lastPack.length-16} restantes) ↓</button>
+        ` : ''}
+      ` : ''}
+    ` : `
+      <div class="filter-box">
+        <div class="section-label">FILTRAR COLEÇÃO (${filteredCol.length} figurinhas)</div>
+        <select class="filter-select" onchange="setFilterTeam(this.value)">
+          ${teams.map(t=>`<option ${t===state.filterTeam?'selected':''}>${t}</option>`).join('')}
+        </select>
+        <select class="filter-select" style="margin-bottom:0" onchange="setFilterType(this.value)">
+          ${types.map(t=>`<option ${t===state.filterType?'selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+      ${filteredCol.length === 0 ? `
+        <div class="empty-msg">Nenhuma figurinha neste filtro ainda.<br/><span style="font-size:12px">Abra pacotes para preencher o álbum!</span></div>
+      ` : `
+        <div class="grid">${filteredCol.map(s => renderCard(s, false, 0)).join('')}</div>
+      `}
+    `}
+  </div>
+
+  <div class="rarity-legend">
+    <div class="rarity-label-sm">RARIDADE</div>
+    <div class="rarity-tags">
+      ${Object.entries(RARITY).map(([k,r])=>`
+        <div class="rarity-tag" style="background:${r.bg};color:${r.color};border:1px solid ${r.color}55">${r.label}</div>
+      `).join('')}
+    </div>
+  </div>`;
+}
+
+function renderCard(s, isNew, delay) {
+  const r = RARITY[s.type] || RARITY.player;
+  const icon = ICONS[s.type] || '⚽';
+  const isLegend = s.type.startsWith('legend');
+  const shadow = isLegend ? `0 0 18px ${r.color}88` : '0 2px 8px #00000066';
+  return `
+    <div class="sticker-card" style="background:${r.bg};border:2px solid ${r.color};box-shadow:${shadow};animation:slideIn .4s ease ${delay}s both;">
+      ${isNew ? '<div class="sticker-new-badge">NOVA</div>' : ''}
+      <div class="sticker-icon">${icon}</div>
+      <div class="sticker-name" style="color:${r.color}">${s.name}${s.variant?' · '+s.variant:''}</div>
+      <div class="sticker-team">${s.team}</div>
+      <div class="sticker-rarity" style="color:${r.color};background:${r.color}22">${r.label}</div>
+      <div class="sticker-id">#${s.id}</div>
+      <div class="sticker-page">📄 Pág. ${getPage(s.id)}</div>
+    </div>`;
+}
+
+// ─── ACTIONS
+function setView(v) { state.view = v; render(); }
+function setPackSize(v) { const n=parseInt(v); if(!isNaN(n)&&n>=1) state.packSize=n; }
+function setQty(n) { state.packSize = n; render(); }
+function showMore() { state.showAll = true; render(); }
+function setFilterTeam(v) { state.filterTeam = v; render(); }
+function setFilterType(v) { state.filterType = v; render(); }
+
+function resetAlbum() {
+  if (!confirm('Tem certeza? Todo o progresso será apagado!')) return;
+  state.pulled = new Set();
+  state.packCount = 0;
+  state.lastPack = [];
+  state.showAll = false;
+  saveData(state.pulled, 0);
+  render();
+}
+
+function openPack() {
+  if (state.opening) return;
+  const avail = ALL_STICKERS.filter(s => !state.pulled.has(s.id));
+  if (avail.length === 0) return;
+  state.opening = true;
+  render();
+  setTimeout(() => {
+    const count = Math.min(state.packSize, avail.length);
+    const pack = [];
+    const temp = [...avail];
+    for (let i = 0; i < count; i++) {
+      const chosen = weightedRandom(temp);
+      pack.push(chosen);
+      temp.splice(temp.findIndex(x => x.id === chosen.id), 1);
+    }
+    pack.forEach(s => state.pulled.add(s.id));
+    state.lastPack = pack;
+    state.packCount++;
+    state.showAll = false;
+    state.view = 'pack';
+    state.opening = false;
+    saveData(state.pulled, state.packCount);
+    render();
+  }, 300);
+}
+
+init();
+</script>
+</body>
+</html>
